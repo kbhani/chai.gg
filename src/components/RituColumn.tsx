@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import ChaiImage from './ChaiImage';
+import { useNavigate } from 'react-router-dom';
 
 export type RituInfo = {
   name: string;
@@ -17,14 +16,30 @@ interface RituColumnProps {
 
 const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const navigate = useNavigate();
   
   // Calculate animation delay based on column index
   const animationDelay = `${index * 100}ms`;
   
+  const handleClick = () => {
+    setIsClicked(true);
+    // Add a fixed div that covers the screen with a barn door animation
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 bg-black z-50';
+    overlay.style.animation = 'barn-door-close 0.5s ease-out forwards';
+    document.body.appendChild(overlay);
+    
+    // Navigate after animation completes
+    setTimeout(() => {
+      navigate(`/ritu/${ritu.name.toLowerCase()}`);
+    }, 500);
+  };
+  
   return (
-    <Link 
-      to={`/ritu/${ritu.name.toLowerCase()}`} 
-      className="h-screen column-hover-effect block"
+    <button 
+      onClick={handleClick}
+      className={`h-screen w-full column-hover-effect block outline-none border-0 ${isClicked ? 'pointer-events-none' : ''}`}
       style={{ 
         backgroundColor: ritu.color,
         animationDelay: animationDelay,
@@ -40,7 +55,7 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
           <h2 className="text-xl font-light text-white tracking-wider uppercase">{ritu.name}</h2>
         </div>
       </div>
-    </Link>
+    </button>
   );
 };
 
