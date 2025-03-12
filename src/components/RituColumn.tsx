@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import ChaiImage from './ChaiImage';
 
 export type RituInfo = {
@@ -21,8 +22,9 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
   const animationDelay = `${index * 100}ms`;
   
   return (
-    <div 
-      className="h-screen column-hover-effect"
+    <Link 
+      to={`/ritu/${ritu.name.toLowerCase()}`} 
+      className="h-screen column-hover-effect block"
       style={{ 
         backgroundColor: ritu.color,
         animationDelay: animationDelay,
@@ -37,27 +39,8 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
         >
           <h2 className="text-xl font-light text-white tracking-wider uppercase">{ritu.name}</h2>
         </div>
-        
-        <div className="flex-1 flex flex-col items-center justify-center gap-8 w-full">
-          {ritu.images.map((image, idx) => (
-            <div 
-              key={idx}
-              className="opacity-0 animate-image-appear w-full"
-              style={{ 
-                animationDelay: `${parseInt(animationDelay) + (idx * 150)}ms`,
-                animationPlayState: isHovered ? 'running' : 'paused'
-              }}
-            >
-              <ChaiImage 
-                src={image} 
-                alt={`${ritu.name} chai ${idx + 1}`} 
-                href={`/ritu/${ritu.name.toLowerCase()}/${idx + 1}`} 
-              />
-            </div>
-          ))}
-        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
