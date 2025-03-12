@@ -21,13 +21,70 @@ const RituDetail: React.FC<RituDetailProps> = ({ ritus }) => {
     if (!rituData) {
       navigate('/');
     }
+    
+    // Create a reverse animation for entry
+    if (rituData) {
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes column-shrink {
+          0% {
+            opacity: 1;
+            transform: scale(100);
+          }
+          100% {
+            opacity: 0;
+            transform: scale(1);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Create full-screen color overlay that shrinks
+      const overlay = document.createElement('div');
+      overlay.className = 'fixed inset-0 z-40';
+      overlay.style.backgroundColor = rituData.color;
+      overlay.style.animation = 'column-shrink 0.5s ease-out forwards';
+      document.body.appendChild(overlay);
+      
+      // Remove overlay after animation
+      setTimeout(() => {
+        document.body.removeChild(overlay);
+        setIsEntering(false);
+      }, 500);
+    }
   }, [rituData, navigate]);
 
   const handleBackClick = () => {
     setIsExiting(true);
+    
+    // Create full-screen color overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 z-40';
+    overlay.style.backgroundColor = rituData?.color || '#000';
+    overlay.style.transform = 'scale(0)';
+    overlay.style.opacity = '0';
+    overlay.style.animation = 'column-expand 0.5s ease-out forwards';
+    document.body.appendChild(overlay);
+    
+    // Define the animation
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes column-expand {
+        0% {
+          opacity: 0;
+          transform: scale(0);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(100);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
     setTimeout(() => {
       navigate('/');
-    }, 500); // Match transition duration
+    }, 500);
   };
 
   if (!rituData) return null;
@@ -38,14 +95,6 @@ const RituDetail: React.FC<RituDetailProps> = ({ ritus }) => {
       style={{ backgroundColor: rituData.color }}
     >
       <Header />
-      
-      <div 
-        className={`
-          fixed inset-0 bg-black transition-transform duration-500 z-40
-          ${isEntering ? 'animate-barn-door-open' : ''}
-          ${isExiting ? 'animate-barn-door-close' : ''}
-        `}
-      />
       
       <main className="pt-24 px-8 pb-16 max-w-5xl mx-auto">
         <button 

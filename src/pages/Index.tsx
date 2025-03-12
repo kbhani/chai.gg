@@ -27,7 +27,8 @@ const Index: React.FC<IndexProps> = ({ ritus }) => {
         {ritus.map((ritu, index) => (
           <div 
             key={index} 
-            className="flex-1 column-transition" 
+            className="flex-1 column-transition"
+            id={`column-container-${index}`}
           >
             <RituColumn ritu={ritu} index={index} />
           </div>

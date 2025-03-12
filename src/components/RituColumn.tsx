@@ -24,11 +24,39 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
   
   const handleClick = () => {
     setIsClicked(true);
-    // Add a fixed div that covers the screen with a barn door animation
-    const overlay = document.createElement('div');
-    overlay.className = 'fixed inset-0 bg-black z-50';
-    overlay.style.animation = 'barn-door-close 0.5s ease-out forwards';
-    document.body.appendChild(overlay);
+    
+    // Create a column-specific overlay that matches the column's position
+    const columnElement = document.getElementById(`ritu-column-${index}`);
+    if (columnElement) {
+      const rect = columnElement.getBoundingClientRect();
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'fixed z-50';
+      overlay.style.backgroundColor = ritu.color;
+      overlay.style.top = `${rect.top}px`;
+      overlay.style.left = `${rect.left}px`;
+      overlay.style.width = `${rect.width}px`;
+      overlay.style.height = `${rect.height}px`;
+      overlay.style.animation = 'column-expand 0.5s ease-out forwards';
+      
+      document.body.appendChild(overlay);
+      
+      // Define the animation
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes column-expand {
+          0% {
+            transform: scaleX(1) scaleY(1);
+            transform-origin: left;
+          }
+          100% {
+            transform: scaleX(100) scaleY(100);
+            transform-origin: left;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
     
     // Navigate after animation completes
     setTimeout(() => {
@@ -38,6 +66,7 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
   
   return (
     <button 
+      id={`ritu-column-${index}`}
       onClick={handleClick}
       className={`h-screen w-full column-hover-effect block outline-none border-0 ${isClicked ? 'pointer-events-none' : ''}`}
       style={{ 
