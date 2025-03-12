@@ -23,11 +23,11 @@ const Index: React.FC<IndexProps> = ({ ritus }) => {
     <div className={`w-full h-screen overflow-hidden ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}>
       <Header />
       
-      <main className="w-full h-screen pt-20 flex flex-row">
+      <main className="w-full h-screen pt-20 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden">
         {ritus.map((ritu, index) => (
           <div 
             key={index} 
-            className="flex-1 column-transition"
+            className="flex-1 column-transition min-h-[50vh] md:min-h-0"
             id={`column-container-${index}`}
           >
             <RituColumn ritu={ritu} index={index} />

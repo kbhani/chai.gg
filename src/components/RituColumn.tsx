@@ -68,7 +68,7 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
     <button 
       id={`ritu-column-${index}`}
       onClick={handleClick}
-      className={`h-screen w-full column-hover-effect block outline-none border-0 ${isClicked ? 'pointer-events-none' : ''}`}
+      className={`w-full h-full column-hover-effect block outline-none border-0 md:h-screen ${isClicked ? 'pointer-events-none' : ''}`}
       style={{ 
         backgroundColor: ritu.color,
         animationDelay: animationDelay,
