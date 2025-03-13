@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export type RituInfo = {
+  id: string;
   name: string;
   color: string;
   description: string;
@@ -18,7 +19,7 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
   const navigate = useNavigate();
   
   // Calculate animation delay based on column index
-  const animationDelay = `${index * 100}ms`;
+  const animationDelay = `${index * 400}ms`;
   
   const handleClick = () => {
     setIsClicked(true);
@@ -52,7 +53,7 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
     
     // Navigate after animation completes
     setTimeout(() => {
-      navigate(`/ritu/${ritu.name.toLowerCase()}`);
+      navigate(`/ritu/${ritu.id}`);
     }, 500);
   };
   
