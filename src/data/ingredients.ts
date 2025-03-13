@@ -10,7 +10,7 @@ export const ingredientsData: IngredientData[] = [
   {
     startMonth: 1,
     endMonth: 2,
-    ritu: "Shishira Ritu",
+    ritu: "Śiśira (शिशिर)",
     ingredients: [
       "Tea leaves",
       "Milk",
@@ -27,7 +27,7 @@ export const ingredientsData: IngredientData[] = [
   {
     startMonth: 3,
     endMonth: 4,
-    ritu: "Vasanta Ritu",
+    ritu: "Vasanta (वसन्त)",
     ingredients: [
       "Tea leaves",
       "Milk",
@@ -42,7 +42,7 @@ export const ingredientsData: IngredientData[] = [
   {
     startMonth: 5,
     endMonth: 6,
-    ritu: "Grishma Ritu",
+    ritu: "Grīṣma (ग्रीष्म)",
     ingredients: [
       "Tea leaves",
       "Milk",
@@ -57,7 +57,7 @@ export const ingredientsData: IngredientData[] = [
   {
     startMonth: 7,
     endMonth: 8,
-    ritu: "Varsha Ritu",
+    ritu: "Varṣa (वर्षा)",
     ingredients: [
       "Tea leaves",
       "Milk",
@@ -74,7 +74,7 @@ export const ingredientsData: IngredientData[] = [
   {
     startMonth: 9,
     endMonth: 10,
-    ritu: "Sharad Ritu",
+    ritu: "Śarada (शरद)",
     ingredients: [
       "Tea leaves",
       "Milk",
@@ -90,7 +90,7 @@ export const ingredientsData: IngredientData[] = [
   {
     startMonth: 11,
     endMonth: 12,
-    ritu: "Hemant Ritu",
+    ritu: "Hemanta (हेमन्त)",
     ingredients: [
       "Tea leaves",
       "Milk",
