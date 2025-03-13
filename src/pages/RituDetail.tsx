@@ -1,8 +1,8 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { RituInfo } from '../components/RituColumn';
+import { ingredientsData } from '../data/ingredients';
 
 interface RituDetailProps {
   ritus: RituInfo[];
@@ -15,6 +15,9 @@ const RituDetail: React.FC<RituDetailProps> = ({ ritus }) => {
   const [isExiting, setIsExiting] = useState(false);
   
   const rituData = ritus.find(r => r.name.toLowerCase() === ritu?.toLowerCase());
+  const ingredientData = ingredientsData.find(
+    i => i.ritu.toLowerCase().includes(ritu?.toLowerCase() || '')
+  );
   
   useEffect(() => {
     // If ritu is not found, navigate back to home
@@ -57,83 +60,89 @@ const RituDetail: React.FC<RituDetailProps> = ({ ritus }) => {
   const handleBackClick = () => {
     setIsExiting(true);
     
+    // Remove any existing overlays first
+    const existingOverlays = document.querySelectorAll('.transition-overlay');
+    existingOverlays.forEach(overlay => overlay.remove());
+    
     // Create full-screen color overlay
     const overlay = document.createElement('div');
-    overlay.className = 'fixed inset-0 z-40';
+    overlay.className = 'fixed inset-0 z-[90] transition-overlay';
     overlay.style.backgroundColor = rituData?.color || '#000';
     overlay.style.transform = 'scale(0)';
     overlay.style.opacity = '0';
-    overlay.style.animation = 'column-expand 0.5s ease-out forwards';
+    overlay.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
     document.body.appendChild(overlay);
     
-    // Define the animation
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes column-expand {
-        0% {
-          opacity: 0;
-          transform: scale(0);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(100);
-        }
-      }
-    `;
-    document.head.appendChild(style);
+    // Trigger the animation
+    requestAnimationFrame(() => {
+      overlay.style.transform = 'scale(100)';
+      overlay.style.opacity = '1';
+    });
     
+    // Clean up and navigate
     setTimeout(() => {
-      navigate('/');
+      overlay.remove();
+      navigate('/', { replace: true });
     }, 500);
   };
 
-  if (!rituData) return null;
+  if (!rituData || !ingredientData) return null;
+
+  const getMonthName = (month: number) => {
+    return new Date(2024, month - 1).toLocaleString('default', { month: 'long' });
+  };
 
   return (
     <div 
-      className="min-h-screen w-full overflow-hidden"
+      className="min-h-screen w-full overflow-x-hidden pb-32"
       style={{ backgroundColor: rituData.color }}
     >
       <Header />
       
-      <main className="pt-24 px-8 pb-16 max-w-5xl mx-auto">
+      <main className="pt-24 px-8 max-w-4xl mx-auto">
         <button 
           onClick={handleBackClick}
-          className="mb-8 px-4 py-2 bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30 transition-colors"
+          className="mb-8 px-4 py-2 bg-black/10 rounded-full backdrop-blur-sm hover:bg-black/20 transition-colors text-black/90"
         >
           Back to Seasons
         </button>
         
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
-          <h1 className="text-4xl font-light text-white mb-6">{rituData.name} Chai</h1>
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg space-y-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <h1 className="text-4xl font-light text-black">{rituData.name} Chai</h1>
+            <div className="text-black/80 text-lg font-light">
+              {getMonthName(ingredientData.startMonth)} - {getMonthName(ingredientData.endMonth)}
+            </div>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-8">
             <div>
-              <p className="text-white/90 text-lg mb-6">{rituData.description}</p>
-              
-              <div className="space-y-4">
-                <h2 className="text-2xl font-light text-white">Characteristics</h2>
-                <ul className="list-disc list-inside text-white/90 space-y-2 pl-4">
-                  <li>Special ingredients unique to {rituData.name}</li>
-                  <li>Traditional preparation methods</li>
-                  <li>Ideal serving temperature</li>
-                  <li>Recommended pairings</li>
-                </ul>
-              </div>
+              <p className="text-black/90 text-lg leading-relaxed">{rituData.description}</p>
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
-              {rituData.images.map((image, idx) => (
-                <div key={idx} className="animate-fade-in" style={{ animationDelay: `${idx * 150}ms` }}>
-                  <div className="aspect-square rounded-lg overflow-hidden shadow-md">
-                    <img 
-                      src={image} 
-                      alt={`${rituData.name} chai ${idx + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              ))}
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-light text-black mb-4">Ingredients</h2>
+                <ul className="list-none space-y-2">
+                  {ingredientData.ingredients.map((ingredient, idx) => (
+                    <li 
+                      key={idx} 
+                      className="flex items-center text-black/90 animate-fade-in"
+                      style={{ animationDelay: `${idx * 50}ms` }}
+                    >
+                      <span className="w-2 h-2 bg-black/30 rounded-full mr-3" />
+                      {ingredient}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div className="p-6 bg-black/5 backdrop-blur-sm rounded-lg border border-black/10">
+                <h3 className="text-xl font-light text-black mb-3">Preparation Note</h3>
+                <p className="text-black/90 text-base leading-relaxed">
+                  {ingredientData.specialNote}
+                </p>
+              </div>
             </div>
           </div>
         </div>
