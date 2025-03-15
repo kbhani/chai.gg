@@ -30,7 +30,7 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
       const rect = columnElement.getBoundingClientRect();
       
       const overlay = document.createElement('div');
-      overlay.className = 'fixed z-[90] transition-transform duration-500 ease-out';
+      overlay.className = 'fixed z-[90] transition-transform duration-1000 ease-in-out';
       overlay.style.backgroundColor = ritu.color;
       overlay.style.top = `${rect.top}px`;
       overlay.style.left = `${rect.left}px`;
@@ -48,13 +48,13 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
       // Clean up the overlay after navigation
       setTimeout(() => {
         document.body.removeChild(overlay);
-      }, 1000);
+      }, 1500);
     }
     
     // Navigate after animation completes
     setTimeout(() => {
       navigate(`/ritu/${ritu.id}`);
-    }, 500);
+    }, 800);
   };
   
   return (
@@ -100,17 +100,23 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
         <div 
           className={`
             transform transition-all duration-500 ease-out
-            opacity-0 animate-fade-in mb-8
-            ${isHovered ? 'translate-y-0' : 'translate-y-4'}
+            animate-fade-in mb-8
+            ${isHovered ? 'translate-y-0 scale-110' : 'translate-y-0 scale-100'}
           `}
-          style={{ animationDelay: animationDelay }}
+          style={{ 
+            animationDelay: animationDelay,
+            opacity: 1,
+          }}
         >
-          <h2 className="text-2xl font-light text-black tracking-wider uppercase">{ritu.name}</h2>
-          {isHovered && (
-            <p className="text-black/80 text-sm mt-2 max-w-xs text-center animate-fade-in">
-              {ritu.description.split('.')[0]}.
-            </p>
-          )}
+          {/* Add padding to the text container */}
+          <div className="px-4">
+            <h2 className="text-2xl font-light text-black tracking-wider uppercase">{ritu.name}</h2>
+            {isHovered && (
+              <p className="text-black/80 text-sm mt-2 max-w-xs text-center animate-fade-in">
+                {ritu.description.split('.')[0]}.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </button>
