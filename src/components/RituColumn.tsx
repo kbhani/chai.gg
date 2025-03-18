@@ -90,7 +90,7 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
         backgroundColor: ritu.color,
         animationDelay: animationDelay,
         opacity: isCurrentSeason ? 1 : 0.55,
-        transition: 'opacity 0.7s ease-in-out, transform 0.5s ease-out, background-color 0.5s ease-out',
+        transition: 'opacity 0.8s ease-in-out, transform 0.8s ease-out, background-color 0.8s ease-out',
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -124,7 +124,7 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
       <div 
         className={`
           absolute left-0 top-0 w-[2px] h-full
-          transition-all duration-700 ease-in-out
+          transition-all duration-800 ease-in-out
           ${isCurrentSeason ? 'opacity-70' : 'opacity-50'}
           group-hover:opacity-0
         `}
@@ -137,7 +137,7 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
       <div 
         className={`
           absolute right-0 top-0 w-[2px] h-full
-          transition-all duration-700 ease-in-out
+          transition-all duration-800 ease-in-out
           ${isCurrentSeason ? 'opacity-70' : 'opacity-50'}
           group-hover:opacity-0
         `}
@@ -148,18 +148,19 @@ const RituColumn: React.FC<RituColumnProps> = ({ ritu, index }) => {
 
       <div className={`
         h-full flex flex-col justify-center items-center px-4 py-20
-        transition-all duration-500 ease-out
+        transition-all duration-800 ease-out
         ${isHovered ? 'scale-110' : 'scale-100'}
       `}>
         <div 
           className={`
-            transform transition-all duration-500 ease-out
+            transform transition-all duration-800 ease-out
             animate-fade-in mb-8
             ${isHovered ? 'translate-y-0 scale-110' : 'translate-y-0 scale-100'}
           `}
           style={{ 
             animationDelay: animationDelay,
             opacity: 1,
+            transition: 'transform 0.8s ease-out 0.1s, scale 0.8s ease-out 0.1s'
           }}
         >
           {/* Add padding to the text container */}

@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -96,8 +95,14 @@ export default {
 					}
 				},
 				'column-hover': {
-					'0%': { transform: 'scale(1)', filter: 'brightness(1)' },
-					'100%': { transform: 'scale(1.05)', filter: 'brightness(1.1)' }
+					'0%, 20%': { 
+						transform: 'scale(1)', 
+						filter: 'brightness(1)' 
+					},
+					'100%': { 
+						transform: 'scale(1.05)', 
+						filter: 'brightness(1.1)' 
+					}
 				},
 				'image-appear': {
 					'0%': { opacity: '0', transform: 'translateY(20px)' },
@@ -119,7 +124,7 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'column-hover': 'column-hover 0.4s ease-out forwards',
+				'column-hover': 'column-hover 0.8s ease-out forwards',
 				'image-appear': 'image-appear 0.5s ease-out forwards',
 				'fade-in': 'fade-in 0.8s ease-out',
 				'barn-door-open': 'barn-door-open 0.5s ease-out forwards',

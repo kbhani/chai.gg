@@ -50,6 +50,17 @@
     @apply border-border;
   }
 
+  /* Hide scrollbars for all elements */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  /* Hide scrollbars for Webkit browsers */
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
   body {
     @apply bg-background text-foreground antialiased overflow-y-auto;
     scrollbar-width: none; /* Firefox */
@@ -80,11 +91,17 @@
 
   .column-hover-effect {
     transform-origin: center;
-    transition: 0.5s ease-out;
+    transition: all 0.5s ease-out;
+    transition-delay: 0.1s;
   }
   
   .column-hover-effect:hover {
     @apply animate-column-hover;
+    transition-delay: 0s;
+  }
+  
+  .column-hover-effect:not(:hover) {
+    transition-delay: 0.15s;
   }
   
   .image-hover-effect {
